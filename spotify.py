@@ -1,3 +1,5 @@
+import time
+
 import streamlit as st
 import pandas as pd
 
@@ -6,7 +8,14 @@ st.set_page_config(
     page_title="Músicas do Spotify",
 )
 
-df = pd.read_csv("01 Spotify.csv")
+@st.cache_data
+def load_data():
+    df = pd.read_csv("01 Spotify.csv")
+    time.sleep(5)
+    return df
+
+df = load_data()
+st.session_state["df_spotify"] = df
 
 df.set_index(["Track"], inplace=True)
 
